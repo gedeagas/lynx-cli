@@ -1,6 +1,4 @@
-# @gedeagas/lynx-cli
-
-## Description
+# Lynx CLI
 
 A CLI tool to initialize a new project from the `@gedeagas/lynx-template` with custom naming. This tool simplifies the process of creating new projects based on a predefined template, allowing you to specify the project name, a placeholder to be replaced within the template, and optionally a specific template version (git tag). You can also specify a package name and project title.
 
