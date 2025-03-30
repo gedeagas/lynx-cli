@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import walk from './walk';
 
-// Simple custom logger
 const logger = {
   debug: (msg: string): void => {
     console.debug(msg);
@@ -18,10 +17,6 @@ interface PlaceholderConfig {
   targetDir: string; 
 }
 
-/**
- * TODO: This is a default placeholder for title in react-native template.
- * We should get rid of this once custom templates adapt `placeholderTitle` in their configurations.
- */
 const DEFAULT_TITLE_PLACEHOLDER = 'Hello App Display Name';
 
 export function validatePackageName(packageName: string) {
@@ -76,11 +71,6 @@ function shouldRenameFile(filePath: string, nameToReplace: string) {
   return path.basename(filePath).includes(nameToReplace);
 }
 
-/**
- * Determines if a file should be ignored.
- * Now it ignores files in node_modules, lock files,
- * and files with extensions typically used for keystores and binary images.
- */
 function shouldIgnoreFile(filePath: string) {
   return !!filePath.match(
     /node_modules|yarn\.lock|package-lock\.json|\.(keystore|png|jpe?g|gif|bmp|tiff|ico)$/i,
@@ -174,7 +164,6 @@ export async function replacePlaceholderWithPackageName({
     if (!(await fs.stat(filePath)).isDirectory()) {
       const newName = iosFile ? projectName : cleanPackageName;
 
-      // replace bundleID for iOS
       await replaceNameInUTF8File(
         filePath,
         `PRODUCT_BUNDLE_IDENTIFIER = "${cleanPackageName}"`,
@@ -252,9 +241,7 @@ export async function changePlaceholderInTemplate({
   logger.debug(`Changing ${placeholderName} for ${projectName} in template`);
 
 
-  // Save current working directory
   const originalCwd = process.cwd();
-  // Change to target directory
   process.chdir(targetDir);
 
   try {
@@ -289,7 +276,6 @@ export async function changePlaceholderInTemplate({
       }
     }
   } finally {
-    // Always restore the original working directory
     process.chdir(originalCwd);
   }
 }
